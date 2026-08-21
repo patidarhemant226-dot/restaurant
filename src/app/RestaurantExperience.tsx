@@ -3,27 +3,19 @@
 import Image from "next/image";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { useState } from "react";
-import { cuisines, dishes, gallery, housePours, menuItems } from "./data";
+import { cuisines, dishes, featuredDishes, gallery, housePours, menuCategories, menuItems } from "./data";
 import { Arrow } from "../components/ui/Arrow";
 import { Footer } from "../components/sections/Footer";
 import { Header } from "../components/sections/Header";
-import { ReservationForm } from "../components/sections/ReservationForm";
 
 const imageProps = { sizes: "(max-width: 768px) 100vw, 50vw" };
-const heroDishes = [
-  { name: "Burrata Pizza", category: "Italian", detail: "Wood-fired · Basil · Burrata", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=500&q=85" },
-  { name: "Mediterra Burger", category: "Continental", detail: "Charred · House sauce · Crisp", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=85" },
-  { name: "Butter Paneer", category: "Indian", detail: "Silken · Tomato · Aromatic", image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=500&q=85" },
-  { name: "Truffle Tagliolini", category: "Italian", detail: "Fresh pasta · Parmesan · Truffle", image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=85" },
-] as const;
-
 export function RestaurantExperience() {
   const [menuFilter, setMenuFilter] = useState("Indian");
   const [heroDish, setHeroDish] = useState(0);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   const filteredMenu = menuItems.filter((item) => item[1] === menuFilter);
-  const selectedHeroDish = heroDishes[heroDish];
+  const selectedHeroDish = featuredDishes[heroDish];
 
   return (
     <main>
@@ -41,9 +33,9 @@ export function RestaurantExperience() {
           <motion.div className="hero-stage" initial={{ opacity: 0, scale: .94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: [.2, .8, .2, 1] }}>
           <AnimatePresence mode="wait"><motion.div className="hero-image" key={selectedHeroDish.image} initial={{ opacity: 0, scale: 1.06 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: .98 }} transition={{ duration: .45 }}><Image src={selectedHeroDish.image} alt={selectedHeroDish.name} fill priority sizes="(max-width: 768px) 100vw, 52vw" /><div className="image-stamp">M<br /><small>EST. 2026</small></div><div className="hero-image-caption"><span>{selectedHeroDish.category}</span><strong>{selectedHeroDish.name}</strong><small>{selectedHeroDish.detail}</small></div></motion.div></AnimatePresence>
           <motion.div className="floating-dish floating-dish-one" key={`${selectedHeroDish.name}-float`} animate={{ y: [0, -10, 0], rotate: [-5, -2, -5] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}><Image src={selectedHeroDish.floating} alt={`${selectedHeroDish.name} detail`} fill sizes="110px" /></motion.div>
-          <motion.div className="floating-dish floating-dish-two" animate={{ y: [0, 9, 0], rotate: [7, 3, 7] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: .5 }}><Image src={heroDishes[(heroDish + 1) % heroDishes.length].image} alt="Another Mediterra dish" fill sizes="130px" /></motion.div>
+          <motion.div className="floating-dish floating-dish-two" animate={{ y: [0, 9, 0], rotate: [7, 3, 7] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: .5 }}><Image src={featuredDishes[(heroDish + 1) % featuredDishes.length].image} alt="Another Mediterra dish" fill sizes="130px" /></motion.div>
           <div className="stage-label stage-label-top">Curated<br /><b>with intent</b></div><div className="stage-label stage-label-bottom">0{heroDish + 1} / 04<br /><b>Flavours to discover</b></div>
-          <div className="hero-dish-picker" aria-label="Choose a featured dish">{heroDishes.map((dish, index) => <button type="button" key={dish.name} className={heroDish === index ? "active" : ""} onClick={() => setHeroDish(index)} aria-label={`Show ${dish.name}`}><span>0{index + 1}</span>{dish.name}</button>)}</div>
+          <div className="hero-dish-picker" aria-label="Choose a featured dish">{featuredDishes.map((dish, index) => <button type="button" key={dish.name} className={heroDish === index ? "active" : ""} onClick={() => setHeroDish(index)} aria-label={`Show ${dish.name}`}><span>0{index + 1}</span>{dish.name}</button>)}</div>
         </motion.div>
       </section>
 
@@ -55,7 +47,7 @@ export function RestaurantExperience() {
 
       <section className="split-feature" id="our-story"><div className="split-image"><Image src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=90" alt="Friends sharing a meal at Mediterra" fill sizes="(max-width: 768px) 100vw, 50vw" /></div><div className="split-copy"><p className="eyebrow">Our story</p><h2>Different cultures.<br /><em>One table.</em></h2><p>Mediterra was born from a simple belief: the best meals are generous, curious and shared. We bring together the flavours we grew up with and the ones we keep discovering.</p><a className="button button-outline" href="#reserve">Meet Mediterra <Arrow /></a></div></section>
 
-      <section className="menu-preview section" id="menu-list"><div className="section-heading"><div><p className="eyebrow">A menu with a passport</p><h2>Something for every <em>craving</em></h2></div><p className="section-aside">Curious ingredients.<br />Comforting rituals.</p></div><div className="filter-row" role="tablist" aria-label="Menu categories">{["Indian", "Chinese", "Italian", "Asian", "Café", "Desserts"].map((category) => <button key={category} className={menuFilter === category ? "active" : ""} onClick={() => setMenuFilter(category)}>{category}</button>)}</div><div className="menu-list">{filteredMenu.length ? filteredMenu.map((item) => <div className="menu-item" key={item[0]}><div><span>{item[1]}</span><h3>{item[0]}</h3><p>{item[2]}</p></div><strong>{item[3]}</strong></div>) : <p>More flavours are being prepared for this category.</p>}</div><a className="button button-dark menu-button" href="#reserve">View full menu <Arrow /></a></section>
+      <section className="menu-preview section" id="menu-list"><div className="section-heading"><div><p className="eyebrow">A menu with a passport</p><h2>Something for every <em>craving</em></h2></div><p className="section-aside">Curious ingredients.<br />Comforting rituals.</p></div><div className="filter-row" role="tablist" aria-label="Menu categories">{menuCategories.map((category) => <button key={category} className={menuFilter === category ? "active" : ""} onClick={() => setMenuFilter(category)}>{category}</button>)}</div><div className="menu-list">{filteredMenu.length ? filteredMenu.map((item) => <div className="menu-item" key={item[0]}><div><span>{item[1]}</span><h3>{item[0]}</h3><p>{item[2]}</p></div><strong>{item[3]}</strong></div>) : <p>More flavours are being prepared for this category.</p>}</div><a className="button button-dark menu-button" href="#reserve">View full menu <Arrow /></a></section>
 
       <section className="cafe-banner" id="experience"><div><p className="eyebrow">The café, all day</p><h2>From morning coffee<br />to <em>evening bites.</em></h2><a className="text-link light-link" href="#reserve">Plan your visit <Arrow /></a></div><div className="cafe-image"><Image src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1400&q=90" alt="Warm coffee and pastry in the Mediterra cafe" fill sizes="(max-width: 768px) 100vw, 50vw" /></div></section>
 
@@ -65,7 +57,7 @@ export function RestaurantExperience() {
 
       <section className="reviews section"><p className="eyebrow">Notes from the table</p><h2>Loved by our <em>guests.</em></h2><div className="review-grid">{[["The kind of place that makes a Tuesday feel like a celebration. The paneer was extraordinary.", "Ananya Mehta", "Indian comfort"], ["Every dish felt thoughtful without losing the joy of eating. We will be back very soon.", "Rohan Kapoor", "Chef's picks"], ["Beautiful room, warm service and the best coffee I have had in the city. A new favourite.", "Mira Shah", "Café experience"]].map(([quote, name, order]) => <blockquote key={name}><span>“</span><p>{quote}</p><footer><strong>{name}</strong><small>{order} · ★★★★★</small></footer></blockquote>)}</div></section>
 
-      <section className="reserve" id="reserve"><div className="reserve-copy"><p className="eyebrow">Your next gathering</p><h2>Your table<br /><em>is waiting.</em></h2><p>Join us for a relaxed dining experience filled with flavours from around the world.</p><ReservationForm /></div><div className="reserve-image"><Image src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=90" alt="A welcoming restaurant table set for dinner" fill sizes="(max-width: 768px) 100vw, 50vw" /></div></section>
+      <section className="reserve" id="reserve"><div className="reserve-copy"><p className="eyebrow">Your next gathering</p><h2>Your table<br /><em>is waiting.</em></h2><p>Join us for a relaxed dining experience filled with flavours from around the world.</p><a className="button button-cream" href="mailto:hello@mediterra.example">Reserve a table <Arrow /></a></div><div className="reserve-image"><Image src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=90" alt="A welcoming restaurant table set for dinner" fill sizes="(max-width: 768px) 100vw, 50vw" /></div></section>
 
       <Footer />
     </main>

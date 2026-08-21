@@ -1,3 +1,5 @@
+import type { Dish, HousePour, MenuItem } from "../types/restaurant";
+
 export const cuisines = [
   { name: "All", image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85" },
   { name: "Indian", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=85" },
@@ -10,7 +12,14 @@ export const cuisines = [
   { name: "Drinks", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85" },
 ] as const;
 
-import type { Dish, HousePour, MenuItem } from "../types/restaurant";
+export const menuCategories = ["Indian", "Chinese", "Italian", "Asian", "Café", "Desserts"] as const;
+
+export const featuredDishes = [
+  { name: "Burrata Pizza", category: "Italian", detail: "Wood-fired · Basil · Burrata", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=500&q=85" },
+  { name: "Mediterra Burger", category: "Continental", detail: "Charred · House sauce · Crisp", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=85" },
+  { name: "Butter Paneer", category: "Indian", detail: "Silken · Tomato · Aromatic", image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=500&q=85" },
+  { name: "Truffle Tagliolini", category: "Italian", detail: "Fresh pasta · Parmesan · Truffle", image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=85" },
+] as const;
 
 export const dishes: readonly Dish[] = [
   { name: "Butter Paneer", cuisine: "Indian", description: "Silken paneer in a velvet tomato gravy", price: "₹320", image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1000&q=85" },
