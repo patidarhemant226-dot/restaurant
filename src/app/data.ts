@@ -12,7 +12,7 @@ export const cuisines = [
   { name: "Drinks", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85" },
 ] as const;
 
-export const menuCategories = ["Indian", "Chinese", "Italian", "Asian", "Café", "Desserts"] as const;
+export const menuCategories = ["All", "Indian", "Chinese", "Italian", "Asian", "Café", "Desserts", "Drinks"] as const;
 
 export const featuredDishes = [
   { name: "Burrata Pizza", category: "Italian", detail: "Wood-fired · Basil · Burrata", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=500&q=85" },
