@@ -10,7 +10,9 @@ export const cuisines = [
   { name: "Drinks", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85" },
 ] as const;
 
-export const dishes = [
+import type { Dish, HousePour, MenuItem } from "../types/restaurant";
+
+export const dishes: readonly Dish[] = [
   { name: "Butter Paneer", cuisine: "Indian", description: "Silken paneer in a velvet tomato gravy", price: "₹320", image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1000&q=85" },
   { name: "Schezwan Noodles", cuisine: "Chinese", description: "Wok-tossed noodles, greens and fire", price: "₹240", image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1000&q=85" },
   { name: "Truffle Tagliolini", cuisine: "Italian", description: "Fresh pasta, parmesan and black truffle", price: "₹420", image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85" },
@@ -24,13 +26,13 @@ export const dishes = [
   { name: "Basque Cheesecake", cuisine: "Desserts", description: "Burnt top, soft centre, sea salt", price: "₹280", image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85" },
 ] as const;
 
-export const housePours = [
+export const housePours: readonly HousePour[] = [
   { name: "Cappuccino", note: "Espresso · Silk · Warmth", price: "₹180", image: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=900&q=85" },
   { name: "Berry Fizz", note: "Berries · Citrus · Sparkle", price: "₹210", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85" },
   { name: "Mango Chilli", note: "Alphonso · Lime · Mint", price: "₹230", image: "https://images.unsplash.com/photo-1546171753-97d7676e4602?auto=format&fit=crop&w=900&q=85" },
 ];
 
-export const menuItems = [
+export const menuItems: readonly MenuItem[] = [
   ["Butter Paneer", "Indian", "Creamy tomato gravy, paneer and aromatic spices", "₹320"],
   ["Paneer Tikka", "Indian", "Charred paneer, peppers and house spices", "₹280"],
   ["Dal Makhani", "Indian", "Slow-cooked black lentils, butter and cream", "₹260"],

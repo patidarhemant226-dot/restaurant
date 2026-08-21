@@ -4,8 +4,11 @@ import Image from "next/image";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { useState } from "react";
 import { cuisines, dishes, gallery, housePours, menuItems } from "./data";
+import { Arrow } from "../components/ui/Arrow";
+import { Footer } from "../components/sections/Footer";
+import { Header } from "../components/sections/Header";
+import { ReservationForm } from "../components/sections/ReservationForm";
 
-const navItems = ["Menu", "Cuisines", "Our Story", "Experience", "Gallery"];
 const imageProps = { sizes: "(max-width: 768px) 100vw, 50vw" };
 const heroDishes = [
   { name: "Burrata Pizza", category: "Italian", detail: "Wood-fired · Basil · Burrata", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=500&q=85" },
@@ -14,11 +17,8 @@ const heroDishes = [
   { name: "Truffle Tagliolini", category: "Italian", detail: "Fresh pasta · Parmesan · Truffle", image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1500&q=90", floating: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=85" },
 ] as const;
 
-function Arrow() { return <span aria-hidden="true" className="arrow">↗</span>; }
-
 export function RestaurantExperience() {
   const [menuFilter, setMenuFilter] = useState("Indian");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [heroDish, setHeroDish] = useState(0);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
@@ -28,18 +28,7 @@ export function RestaurantExperience() {
   return (
     <main>
       <motion.div className="progress" style={{ scaleX }} />
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Mediterra home">Mediterra<span>®</span></a>
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#top">Home</a>{navItems.map((item) => <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`}>{item}</a>)}
-        </nav>
-        <a className="header-cta" href="#reserve">Reserve a table <Arrow /></a>
-        <button className="menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}><span /><span /></button>
-      </header>
-      <AnimatePresence>{mobileOpen && <motion.nav className="mobile-nav" initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} aria-label="Mobile navigation">
-        <a href="#top" onClick={() => setMobileOpen(false)}>Home</a>{navItems.map((item) => <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`} onClick={() => setMobileOpen(false)}>{item}</a>)}
-        <a className="mobile-reserve" href="#reserve" onClick={() => setMobileOpen(false)}>Reserve a table <Arrow /></a>
-      </motion.nav>}</AnimatePresence>
+      <Header />
 
       <section className="hero" id="top">
         <div className="hero-copy">
@@ -76,15 +65,9 @@ export function RestaurantExperience() {
 
       <section className="reviews section"><p className="eyebrow">Notes from the table</p><h2>Loved by our <em>guests.</em></h2><div className="review-grid">{[["The kind of place that makes a Tuesday feel like a celebration. The paneer was extraordinary.", "Ananya Mehta", "Indian comfort"], ["Every dish felt thoughtful without losing the joy of eating. We will be back very soon.", "Rohan Kapoor", "Chef's picks"], ["Beautiful room, warm service and the best coffee I have had in the city. A new favourite.", "Mira Shah", "Café experience"]].map(([quote, name, order]) => <blockquote key={name}><span>“</span><p>{quote}</p><footer><strong>{name}</strong><small>{order} · ★★★★★</small></footer></blockquote>)}</div></section>
 
-      <section className="reserve" id="reserve"><div className="reserve-copy"><p className="eyebrow">Your next gathering</p><h2>Your table<br /><em>is waiting.</em></h2><p>Join us for a relaxed dining experience filled with flavours from around the world.</p><a className="button button-cream" href="mailto:hello@mediterra.example">Reserve a table <Arrow /></a></div><div className="reserve-image"><Image src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=90" alt="A welcoming restaurant table set for dinner" fill sizes="(max-width: 768px) 100vw, 50vw" /></div></section>
+      <section className="reserve" id="reserve"><div className="reserve-copy"><p className="eyebrow">Your next gathering</p><h2>Your table<br /><em>is waiting.</em></h2><p>Join us for a relaxed dining experience filled with flavours from around the world.</p><ReservationForm /></div><div className="reserve-image"><Image src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=90" alt="A welcoming restaurant table set for dinner" fill sizes="(max-width: 768px) 100vw, 50vw" /></div></section>
 
-      <footer className="footer">
-        <div className="footer-brand"><a className="wordmark" href="#top">Mediterra<span>®</span></a><p>Many cuisines.<br />One warm welcome.</p><a className="footer-reserve" href="#reserve">Reserve your table <Arrow /></a></div>
-        <div className="footer-column"><p className="footer-label">Explore</p><a href="#menu">Signature dishes</a><a href="#cuisines">Cuisines</a><a href="#our-story">Our story</a><a href="#gallery">Gallery</a></div>
-        <div className="footer-column"><p className="footer-label">Visit us</p><p>14 Olive Street, Fort<br />Mumbai, Maharashtra 400001</p><a href="https://maps.google.com/?q=Fort,Mumbai" target="_blank" rel="noreferrer">Get directions <Arrow /></a></div>
-        <div className="footer-column"><p className="footer-label">Opening hours</p><p>Mon–Thu · 11am–11pm<br />Fri–Sun · 11am–12am</p><p className="footer-label footer-label-spaced">Say hello</p><a href="mailto:hello@mediterra.example">hello@mediterra.example</a><a href="tel:+912245678900">+91 22 4567 8900</a></div>
-        <div className="footer-bottom"><span>© 2026 Mediterra. All rights reserved.</span><span><a href="#gallery">Instagram</a><i>·</i><a href="#gallery">Facebook</a><i>·</i><a href="#gallery">YouTube</a></span></div>
-      </footer>
+      <Footer />
     </main>
   );
 }
